@@ -114,10 +114,15 @@ Manter um checklist persistente vivo durante todo o build (plan / acceptance mat
 notes), atualizado a cada milestone. Nunca deixar item concluido sem marcar. E a fonte de
 verdade do progresso — garante que nada se perde se a sessao reiniciar.
 
+## Provisionamento — ferramenta flexivel, artefato fixo
+- Para configurar o Supabase, use o que estiver disponivel: **CLI/SDK OU MCP**. A ferramenta e livre.
+- **MUST (gate de portabilidade):** as migrations DEVEM ficar versionadas como SQL em
+  `supabase/migrations/`, re-aplicaveis por qualquer um via `supabase db push`. O que reproduz no
+  ambiente do avaliador e o SQL versionado no repo, nao a ferramenta usada para aplicar.
+- Se nao houver projeto Supabase definido, PERGUNTAR ao operador qual usar ou se vai criar um novo
+  (checkpoint H0). Nao criar projeto sem confirmacao.
+
 ## O que NAO fazer (MUST NOT)
-- **Usar MCP (Supabase, Vercel, etc) em qualquer passo do build.** Tudo via CLI/SDK/Management API.
-  MCP nao e portavel e nao existe no ambiente do avaliador — usa-lo invalida a germinacao. Mesmo
-  que o MCP esteja disponivel no ambiente atual, NAO usar.
 - Introduzir ORM.
 - Outro provedor de auth alem de Google.
 - Outro banco alem de Supabase.

@@ -8,14 +8,15 @@ description:
 
 # Supabase Provision
 
-> **A skill NAO cria projeto Supabase.** O operador fornece um projeto existente (free serve)
-> via env vars (checkpoint H0 da SEED §16.1). Esta skill apenas CONFIGURA esse projeto.
+> **A skill NAO cria projeto Supabase por conta propria.** O operador designa um projeto (checkpoint
+> H0 da SEED §16.1). Esta skill CONFIGURA esse projeto.
 >
-> **TODA operacao MUST ser via Supabase CLI / SDK / Management API (curl).** O uso de MCP do
-> Supabase e **PROIBIDO (MUST NOT)** no fluxo de build — mesmo que esteja disponivel no ambiente.
-> Razao: o MCP nao e portavel (o avaliador/operador-alvo nao o tem), e validar via MCP testaria
-> um caminho que nao existe no ambiente real. CLI/SDK e o unico caminho que reproduz a germinacao
-> em qualquer maquina.
+> **Ferramenta: flexivel.** Use o que estiver disponivel no ambiente — Supabase **CLI/SDK OU MCP**.
+>
+> **Gate de portabilidade (MUST):** seja qual for a ferramenta, as migrations DEVEM ficar
+> **versionadas como SQL em `supabase/migrations/`**, re-aplicaveis por qualquer um via
+> `supabase db push`. O que garante reproducao no ambiente do avaliador NAO e a ferramenta usada,
+> e o **artefato SQL versionado no repo**. MCP/CLI sao so o meio de aplicar; o SQL versionado e o fim.
 
 ## Goals
 - Configurar o projeto Supabase FORNECIDO: 6 tabelas de dominio (SEED Secao 6) + RLS habilitado.
@@ -30,9 +31,10 @@ description:
 - `SEED.md` Secao 6 (Domain Model), 7 (Persistence), 8 (Auth), 12 (RLS).
 
 ## Steps
-1. **Verificar o projeto fornecido.** Se as env vars REQUIRED (URL/anon/service_role/ref) estiverem
-   ausentes -> PARAR no checkpoint H0 e pedir ao operador (SEED §16.1). NAO criar projeto novo.
-   - `supabase link --project-ref $SUPABASE_PROJECT_REF` para operar via CLI.
+1. **Resolver o projeto (H0).** Se as env vars do projeto (URL/anon/service_role/ref) estiverem
+   ausentes -> PARAR e perguntar ao operador: **qual projeto Supabase usar, ou se vai criar um novo
+   (e em qual org)**. NAO criar projeto sem confirmacao explicita (pode ter custo). Apos definido:
+   - `supabase link --project-ref $SUPABASE_PROJECT_REF` (CLI) ou equivalente via MCP, se disponivel.
 2. Escrever migration SQL em `supabase/migrations/` com as tabelas: `profiles`, `teams`,
    `team_members`, `projects` (com `status`), `options`, `versions` (com `author_id`),
    `comments` (com `pin_x/pin_y`, `parent_id`) — tipos conforme SEED Secao 6.
