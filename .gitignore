@@ -1,0 +1,17 @@
+# Secrets — NUNCA commitar
+.env
+.env.local
+.env*.local
+*.key
+
+# Node / Next
+node_modules/
+.next/
+out/
+dist/
+
+# Vercel
+.vercel
+
+# OS
+.DS_Store
