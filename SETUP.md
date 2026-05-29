@@ -12,6 +12,8 @@
 
 ## Passo 1 — Contas e ferramentas
 - Conta Supabase + Supabase CLI (`supabase login`).
+  - **Crie/aponte um projeto Supabase** (free tier serve) — a SEED **nao cria projeto** (checkpoint H0).
+    Pegue `URL`, `ANON_KEY`, `SERVICE_ROLE_KEY` (Project Settings > API) e o `PROJECT_REF`.
 - Conta Vercel + Vercel CLI (`vercel login`).
 - Projeto no Google Cloud Console com OAuth consent screen configurado.
 
@@ -19,11 +21,12 @@
 Crie um `.env.local` (NAO commitar) com:
 
 ```
-# Supabase
+# Supabase (projeto JA EXISTENTE — a SEED nao cria projeto)
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=        # SOMENTE server-side, nunca no client
-SUPABASE_ACCESS_TOKEN=            # sbp_... (criar/configurar projeto via CLI/MCP)
+SUPABASE_PROJECT_REF=             # ref do projeto (supabase link)
+SUPABASE_ACCESS_TOKEN=            # OPCIONAL: sbp_... so para habilitar Google provider via Management API
 
 # Google OAuth (via Supabase Auth)
 GOOGLE_OAUTH_CLIENT_ID=

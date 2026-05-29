@@ -386,6 +386,7 @@ iteracao planejada.
 
 | # | Onde | Por que o agent nao faz sozinho | O que o humano faz | Agent retoma fazendo |
 |---|------|----------------------------------|--------------------|----------------------|
+| H0 | Fornecer projeto Supabase | Criar/escolher projeto e decisao do operador (custo/org); a SEED nao cria projeto | Cria/aponta um projeto Supabase (free serve) e informa `URL`, `ANON_KEY`, `SERVICE_ROLE_KEY`, `PROJECT_REF` | `supabase-provision`: aplica migrations, RLS, Storage no projeto |
 | H1 | Criar Google OAuth Client | Google Cloud Console (consent screen + criar credencial) e UI interativa | Cria OAuth Client (Web), informa `CLIENT_ID`/`SECRET`, adiciona redirect URI `https://<ref>.supabase.co/auth/v1/callback` | Configura o provider Google no Supabase (via Management API/token) e segue |
 | H2 | Habilitar provider Google no Supabase | Automatizavel se houver `SUPABASE_ACCESS_TOKEN`; senao precisa do dashboard | Se sem token: habilita Google no dashboard e cola client id/secret | Segue para implementacao |
 | H3 | Validar AUTH (login Google) | OAuth interativo nao automatizavel sem conta/sessao de teste | Faz login Google uma vez OU fornece conta/sessao de teste | Continua `e2e-verify` dos criterios 2..8 |
@@ -432,10 +433,11 @@ no **ambiente do agent que germina a seed**, nunca no repositorio.
   REQUIRED estiver ausente, o agent **MUST** parar e reportar o bloqueador (qual credencial,
   por que bloqueia), sem inventar valor. (Equivalente ao "blocked-access escape hatch" do Symphony.)
 - Credenciais necessarias para germinar:
-  - **Supabase:** um access token (`sbp_...`) para criar/configurar o projeto via CLI/MCP, OU um
-    projeto ja existente expondo `URL` + `ANON_KEY` + `SERVICE_ROLE_KEY`.
+  - **Supabase:** um **projeto ja existente** (a SEED NAO cria projeto — checkpoint H0) expondo
+    `URL` + `ANON_KEY` + `SERVICE_ROLE_KEY` + `PROJECT_REF`. `ACCESS_TOKEN` (`sbp_...`) e OPCIONAL,
+    so para habilitar o provider Google via Management API. Acesso via CLI/SDK (MCP e atalho opcional).
   - **Google OAuth:** `CLIENT_ID` + `CLIENT_SECRET` criados no Google Cloud Console (ver skill `google-oauth`).
-  - **Vercel:** `VERCEL_TOKEN` (+ org/project) para deploy de producao.
+  - **Vercel:** `VERCEL_TOKEN` (ou `vercel login`) para deploy de producao.
 - O `SUPABASE_SERVICE_ROLE_KEY` **MUST** permanecer server-side; **MUST NOT** ir para o bundle do client.
 - O avaliador/operador que cola a SEED e quem prove as credenciais no ambiente. A SEED apenas
   **declara** o que precisa (Apendice A) e **falha alto** se faltar.
@@ -443,11 +445,19 @@ no **ambiente do agent que germina a seed**, nunca no repositorio.
 ## Apendice A — Variaveis de Ambiente
 
 ```
+# Supabase — projeto JA EXISTENTE fornecido pelo operador (a SEED nao cria projeto, ver H0)
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=        # somente server-side, nunca no client
+SUPABASE_PROJECT_REF=             # ref do projeto (supabase link)
+SUPABASE_ACCESS_TOKEN=            # OPCIONAL: sbp_... so para habilitar Google provider via Management API
+
+# Google OAuth (criado no Google Cloud Console, ver H1)
 GOOGLE_OAUTH_CLIENT_ID=           # configurado no Supabase Auth provider
 GOOGLE_OAUTH_CLIENT_SECRET=       # configurado no Supabase Auth provider
+
+# Vercel
+VERCEL_TOKEN=                     # ou `vercel login`
 ```
 
 ## Apendice B — Extensoes (OPTIONAL)
