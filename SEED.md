@@ -1,22 +1,26 @@
 # SEED — Almanak
 
-> ## Como germinar (bootstrap — leia primeiro)
-> Esta SEED faz parte de um **repositorio**, nao e um arquivo solto. As regras de construcao
-> vivem em `AGENTS.md` e os procedimentos em `.claude/skills/` — o agent precisa deles em disco.
+> ## Passo 0 — Auto-bootstrap (o AGENT executa isto ANTES de qualquer coisa) — MUST
+> Esta SEED faz parte de um **repositorio**. As regras (`AGENTS.md`) e os procedimentos
+> (`.claude/skills/`) precisam estar em disco. Antes de implementar, o agent **MUST** garantir
+> que tem o repo completo:
 >
-> **Forma correta:** clone o repo e aponte seu coding agent para a pasta:
 > ```
+> # 1. O diretorio atual ja contem AGENTS.md E .claude/skills/ ?
+> #    SIM -> voce ja tem o repo (alguem clonou/te apontou pra ele). Prossiga.
+> #    NAO -> voce recebeu so o texto desta SEED. Clone o repo e trabalhe de dentro dele:
 > git clone https://github.com/impeto-ai/almanac-seed && cd almanac-seed
 > ```
-> Entao instrua: *"Implemente o software descrito em `SEED.md`. Antes, leia `AGENTS.md` e siga
-> as skills em `.claude/skills/` na ordem. Nao declare concluido ate o Definition of Done
-> (Secao 16) passar inteiro."*
 >
-> O harness le os arquivos de instrucao automaticamente: Claude Code -> `CLAUDE.md` + skills;
-> Codex/Cursor/etc -> `AGENTS.md`. (Mesmo padrao do OpenAI Symphony, que clona o repo no workspace.)
+> Apos garantir o repo: leia `AGENTS.md` (regras + agentic build protocol) e siga as skills em
+> `.claude/skills/` na ordem. So entao comece a implementar.
 >
-> **NAO** cole apenas o texto deste arquivo: voce perderia `AGENTS.md` e as skills, e o build
-> sairia sem as regras de stack, qualidade e o build loop.
+> Isso cobre os dois cenarios: (a) colaram so o texto da SEED -> o agent clona e se completa;
+> (b) trouxeram o repo -> o agent detecta os arquivos no filesystem e prossegue. Mesmo padrao do
+> OpenAI Symphony (que clona o repo no workspace via hook `after_create`).
+>
+> O harness tambem le instrucoes automaticamente: Claude Code -> `CLAUDE.md` + skills;
+> Codex/Cursor/etc -> `AGENTS.md`.
 
 ---
 
