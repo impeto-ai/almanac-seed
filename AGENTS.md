@@ -79,10 +79,15 @@ unico germinado da SEED, sem ciclo de PR/tracker.
   encerre a sessao tratando checkpoint como fracasso.
 - A mensagem final reporta apenas acoes concluidas e bloqueadores. Sem "proximos passos para o usuario".
 
-### Step 0 — Kickoff: determinar estado e rotear
+### Step 0 — Kickoff: pre-flight + rotear
 1. Ler `SEED.md` (receita), este `AGENTS.md` (regras) e as skills em `.claude/skills/`.
-2. Detectar o estado atual do build: o repo ja tem app? Supabase provisionado? Deploy no ar?
-3. Rotear:
+2. **PRE-FLIGHT de credenciais (front-load — MUST):** checar de UMA VEZ TUDO que o build inteiro
+   vai precisar (Supabase projeto+keys, Google OAuth client id/secret, Vercel token/login). Se
+   faltar qualquer coisa, **listar TODAS as pendencias num unico pedido** com instrucao exata
+   (ver SEED §16.1) e pausar. **NAO** descobrir credencial faltante uma por uma no meio do build —
+   isso quebra o plug-and-play. Apos o operador prover tudo, rodar autonomo ate o fim.
+3. Detectar o estado atual do build: o repo ja tem app? Supabase provisionado? Deploy no ar?
+4. Rotear:
    - Nada feito -> comecar do `supabase-provision`.
    - Parcial -> **continuar de onde parou** (ver Continuation). NAO refazer o que ja esta PASS.
    - Tudo implementado -> ir direto ao `acceptance-loop`.

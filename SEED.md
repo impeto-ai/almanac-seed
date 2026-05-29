@@ -384,6 +384,14 @@ automatizavel, entao PAUSA com um pedido conciso e exato, registra no workpad co
 `waiting on human: H#`, e **retoma** assim que destravado. Nao e bloqueador de falha — e
 iteracao planejada.
 
+> **Plug-and-play (front-load — MUST):** o setup (H0+H1, e Vercel) deve ser pedido de UMA VEZ no
+> pre-flight do Step 0, NAO descoberto aos poucos durante o build. O fluxo ideal tem 3 fases:
+> **(1) Setup — 1 unica parada** (operador provê Supabase + Google OAuth + Vercel juntos);
+> **(2) Build — autonomo** (provision -> app -> deploy, sem parar);
+> **(3) Validacao — login interativo** (H3/H4, que o avaliador faria de qualquer forma para testar).
+> O Daniel ja ESPERA configurar Supabase/Vercel/Google ("vou fazer o deploy no meu ambiente") —
+> entao pedir isso nao e impedimento; impedimento e parar repetidamente. Peca tudo junto, rode direto.
+
 | # | Onde | Por que o agent nao faz sozinho | O que o humano faz | Agent retoma fazendo |
 |---|------|----------------------------------|--------------------|----------------------|
 | H0 | Fornecer projeto Supabase | Criar/escolher projeto e decisao do operador (custo/org); a SEED nao cria projeto | Cria/aponta um projeto Supabase (free serve) e informa `URL`, `ANON_KEY`, `SERVICE_ROLE_KEY`, `PROJECT_REF` | `supabase-provision`: aplica migrations, RLS, Storage no projeto |
