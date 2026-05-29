@@ -1,10 +1,29 @@
 # SEED — Almanak
 
-> Esta SEED e a **receita completa** do software Almanak. Cole-a no seu coding agent
-> (Claude Code, Codex, Cursor, Gemini CLI ou qualquer outro) e ele DEVE materializar a
-> aplicacao funcional do zero. Antes de implementar, o agent DEVE ler `AGENTS.md` (regras
-> do construtor). A SEED so e considerada germinada quando TODOS os criterios de aceite
-> (Secao 14) passam e o deploy responde em producao (Secao 19).
+> ## Como germinar (bootstrap — leia primeiro)
+> Esta SEED faz parte de um **repositorio**, nao e um arquivo solto. As regras de construcao
+> vivem em `AGENTS.md` e os procedimentos em `.claude/skills/` — o agent precisa deles em disco.
+>
+> **Forma correta:** clone o repo e aponte seu coding agent para a pasta:
+> ```
+> git clone https://github.com/impeto-ai/almanac-seed && cd almanac-seed
+> ```
+> Entao instrua: *"Implemente o software descrito em `SEED.md`. Antes, leia `AGENTS.md` e siga
+> as skills em `.claude/skills/` na ordem. Nao declare concluido ate o Definition of Done
+> (Secao 16) passar inteiro."*
+>
+> O harness le os arquivos de instrucao automaticamente: Claude Code -> `CLAUDE.md` + skills;
+> Codex/Cursor/etc -> `AGENTS.md`. (Mesmo padrao do OpenAI Symphony, que clona o repo no workspace.)
+>
+> **NAO** cole apenas o texto deste arquivo: voce perderia `AGENTS.md` e as skills, e o build
+> sairia sem as regras de stack, qualidade e o build loop.
+
+---
+
+> Esta SEED e a **receita completa** do software Almanak. O agent DEVE materializar a aplicacao
+> funcional do zero, lendo `AGENTS.md` (regras) antes de implementar. A SEED so e considerada
+> germinada quando TODOS os criterios de aceite (Secao 14) passam e o deploy responde em
+> producao (Secao 19).
 
 ---
 
