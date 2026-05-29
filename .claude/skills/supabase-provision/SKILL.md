@@ -9,9 +9,13 @@ description:
 # Supabase Provision
 
 > **A skill NAO cria projeto Supabase.** O operador fornece um projeto existente (free serve)
-> via env vars (checkpoint H0 da SEED §16.1). Esta skill apenas CONFIGURA esse projeto. O
-> caminho canonico e CLI/SDK do Supabase (portavel). O MCP do Supabase, se presente no ambiente,
-> e um **atalho OPCIONAL** para acelerar migrations/sql — nunca um requisito.
+> via env vars (checkpoint H0 da SEED §16.1). Esta skill apenas CONFIGURA esse projeto.
+>
+> **TODA operacao MUST ser via Supabase CLI / SDK / Management API (curl).** O uso de MCP do
+> Supabase e **PROIBIDO (MUST NOT)** no fluxo de build — mesmo que esteja disponivel no ambiente.
+> Razao: o MCP nao e portavel (o avaliador/operador-alvo nao o tem), e validar via MCP testaria
+> um caminho que nao existe no ambiente real. CLI/SDK e o unico caminho que reproduz a germinacao
+> em qualquer maquina.
 
 ## Goals
 - Configurar o projeto Supabase FORNECIDO: 6 tabelas de dominio (SEED Secao 6) + RLS habilitado.
@@ -22,7 +26,7 @@ description:
 ## Inputs (do ambiente — ver SEED Apendice A)
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`,
   `SUPABASE_PROJECT_REF` (projeto ja existente, fornecido pelo operador).
-- `SUPABASE_ACCESS_TOKEN` (OPCIONAL) — para habilitar o provider Google via Management API.
+- `SUPABASE_ACCESS_TOKEN` (OPCIONAL) — para habilitar o provider Google via Management API (curl), nao MCP.
 - `SEED.md` Secao 6 (Domain Model), 7 (Persistence), 8 (Auth), 12 (RLS).
 
 ## Steps

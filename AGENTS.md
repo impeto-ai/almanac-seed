@@ -115,6 +115,9 @@ notes), atualizado a cada milestone. Nunca deixar item concluido sem marcar. E a
 verdade do progresso — garante que nada se perde se a sessao reiniciar.
 
 ## O que NAO fazer (MUST NOT)
+- **Usar MCP (Supabase, Vercel, etc) em qualquer passo do build.** Tudo via CLI/SDK/Management API.
+  MCP nao e portavel e nao existe no ambiente do avaliador — usa-lo invalida a germinacao. Mesmo
+  que o MCP esteja disponivel no ambiente atual, NAO usar.
 - Introduzir ORM.
 - Outro provedor de auth alem de Google.
 - Outro banco alem de Supabase.
